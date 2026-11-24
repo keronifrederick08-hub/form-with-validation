@@ -1,0 +1,31 @@
+<?php
+include("db_config.php");
+//// Escape user inputs for security|| protection from SQL injection
+
+$name = mysqli_real_escape_string($connection, $_REQUEST['name']);
+$program = mysqli_real_escape_string($connection, $_REQUEST['program']);
+$year = mysqli_real_escape_string($connection, $_REQUEST['year']);
+$email = mysqli_real_escape_string($connection, $_REQUEST['email']);
+
+//the mySQL query to be executed by the DB server
+$sql = "INSERT INTO student (name, program, year_of_study, email) VALUES ('$name','$program'  ,'$year','$email')";
+
+// insert data into db using try     catch to handle exceptions
+
+try
+{
+    if(mysqli_query($connection, $sql)){
+        echo "<p style='color:green'>Records added successfully. </p>";
+    } else{
+        echo "ERROR: Could not able to execute $sql. " . mysqli_error($connection);
+    }
+}
+catch(Exception $e)
+{
+    echo "<p style='color:red;'>Slight error, Please check your values " . mysqli_error($connection)."</p>";
+}
+// close the SQL connection
+
+mysqli_close($connection);
+
+?>
